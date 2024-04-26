@@ -23,6 +23,8 @@ export class Client extends TypedEmitter<DiscordClientEvents> {
         this.options = {
             token: options.token,
             intents: options.intents,
+            shard: options.shard,
+            presence: options.presence,
         };
         this.websocket = new websocket(this.options, this);
     }

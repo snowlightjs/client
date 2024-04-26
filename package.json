@@ -1,6 +1,6 @@
 {
   "name": "bluelight.js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "It's a raw connect gateway discord.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -163,6 +163,10 @@ export default class websocket extends TypedEmitter<Events> {
                         this.client.channels.cache.delete(payload.d.id);
                         this.client.emit('channelDelete', payload)
                         break
+                    case GatewayDispatchEvents.IntegrationCreate:
+                        this.client.interaction.cache.set(payload.d.id, payload.d);
+                        this.client.emit('InteractionCreate', payload)
+                        break
                     case GatewayDispatchEvents.Resumed:
                         this.debug(`Received RESUMED Gateway`)
                         break;

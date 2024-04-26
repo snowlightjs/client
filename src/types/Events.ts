@@ -12,4 +12,6 @@ export interface DiscordClientEvents {
     guildUpdate: (payload: any) => void;
     messageCreate: (payload: any) => void;
     channelUpdate: (payload: any) => void;
+    messageDelete: (payload: any) => void;
+    InteractionCreate: (payload: any) => void;
 }

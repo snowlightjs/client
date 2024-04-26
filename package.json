@@ -18,6 +18,7 @@
     "tiny-typed-emitter": "^2.1.0",
     "ws": "^8.16.0"
   },
+  "repository":"https://github.com/FAYStarNext/bluelight.js",
   "publishConfig": {
     "faystarnext:registry": "https://npm.pkg.github.com"
   },

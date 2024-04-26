@@ -2,12 +2,13 @@
 ## Description
 It's a raw connect gateway discord.
 # How to use
-```js
-import websocket from "bluelight.js"
-const client = new websocket({
+```ts
+import { Client } from "bluelight.js"
+const client = new Client({
     intents: 1,
-    token: ""
+    token: "YOUR_BOT_TOKEN"
 })
-client.connect();
-client.on("raw", console.log)
+client.on("ready", () => {
+    console.log("Bot is ready!")
+})
 ```

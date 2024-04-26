@@ -1,6 +1,7 @@
 import WebSocket from 'ws'
 import { TypedEmitter } from 'tiny-typed-emitter'
 import { GatewayDispatchEvents, GatewayOpcodes } from 'discord-api-types/v10'
+import { Client } from './client';
 
 
 /* The `interface Events` is defining a structure that specifies the shape of events that can be
@@ -33,10 +34,8 @@ export default class websocket extends TypedEmitter<Events> {
     id: string
     cache = new Map() 
     /* The `options` property in the WebSocket class is an object that contains two key-value pairs: */
-    options: {
-        token: string
-        intents: number
-    }
+    options: DiscordClientOptions
+    client: Client
     /**
      * The above function is a TypeScript constructor that takes a single parameter and calls the
      * superclass constructor.
@@ -44,9 +43,10 @@ export default class websocket extends TypedEmitter<Events> {
      * should be read-only once it is initialized. This means that the property can only be set during
      * object creation and cannot be modified afterwards.
      */
-    constructor(options: DiscordClientOptions) {
+    constructor(options: DiscordClientOptions, client: Client) {
         super()
         this.options = options
+        this.client = client
     }
 
     /*
@@ -120,7 +120,36 @@ export default class websocket extends TypedEmitter<Events> {
                     case GatewayDispatchEvents.Ready:
                         this.sessionId = payload.d.session_id
                         this.debug(`Received READY Gateway with session id (${this.sessionId})`)
+                        this.client.emit('ready', payload)
                         break;
+                    case GatewayDispatchEvents.MessageCreate:
+                        this.client.message.cache.set(payload.d.id, payload.d);
+                        this.client.emit('messageCreate', payload)
+                        break;
+                    case GatewayDispatchEvents.GuildCreate:
+                        this.client.guilds.cache.set(payload.d.id, payload.d);
+                        this.client.emit('guildCreate', payload)
+                        break
+                    case GatewayDispatchEvents.GuildUpdate:
+                        this.client.guilds.cache.set(payload.d.id, payload.d);
+                        this.client.emit('guildUpdate', payload)
+                        break
+                    case GatewayDispatchEvents.GuildDelete:
+                        this.client.guilds.cache.delete(payload.d.id);
+                        this.client.emit('guildDelete', payload)
+                        break
+                    case GatewayDispatchEvents.ChannelCreate:
+                        this.client.channels.cache.set(payload.d.id, payload.d);
+                        this.client.emit('channelCreate', payload)
+                        break
+                    case GatewayDispatchEvents.ChannelUpdate:
+                        this.client.channels.cache.set(payload.d.id, payload.d);
+                        this.client.emit('channelUpdate', payload)
+                        break
+                    case GatewayDispatchEvents.ChannelDelete:
+                        this.client.channels.cache.delete(payload.d.id);
+                        this.client.emit('channelDelete', payload)
+                        break
                     case GatewayDispatchEvents.Resumed:
                         this.debug(`Received RESUMED Gateway`)
                         break;

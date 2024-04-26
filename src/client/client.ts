@@ -1,9 +1,16 @@
 import { TypedEmitter } from "tiny-typed-emitter";
 import websocket, { DiscordClientOptions } from "./websocket";
+import { DiscordClientEvents } from "../types/Events";
+import { Guilds } from "../structures/Guilds";
+import { Channel } from "../structures/Channel";
+import { Message } from "../structures/Message";
 
-export class Client extends TypedEmitter {
+export class Client extends TypedEmitter<DiscordClientEvents> {
     options: DiscordClientOptions;
     websocket: websocket;
+    public guilds = new Guilds();
+    public channels = new Channel();
+    public message = new Message();
     constructor(options: DiscordClientOptions) {
         super();
         if (typeof options !== 'object' || options === null) {
@@ -13,18 +20,18 @@ export class Client extends TypedEmitter {
             token: options.token,
             intents: options.intents,
         };
-        this.websocket = new websocket(this.options);
+        this.websocket = new websocket(this.options, this);
     }
     public async destroy() {
-        this.emit("debug", 'Destroyed the client');
+        this.emit("raw", 'Destroyed the client');
         return process.exit(0);
     }
 
     public async login(token: string = this.options.token) {
         if (!token || typeof token !== 'string') throw new Error("Token must be a string");
         this.options.token = token = token.replace(/^(Bot|Bearer)\s*/i, '');
-        this.emit("debug", `Provided token: ${this.options.token}`);
-        this.emit("debug", 'Preparing to connect to the gateway...');
+        this.emit("raw", `Provided token: ${this.options.token}`);
+        this.emit("raw", 'Preparing to connect to the gateway...');
         try {
             const discord = await fetch(`https://discord.com/api/v10/gateway/bot`, {
                 headers: {
@@ -35,9 +42,9 @@ export class Client extends TypedEmitter {
                 throw new Error(`Failed to fetch the gateway: ${discord.statusText}`);
             }
             await this.websocket.connect();
-            return this.emit("debug", `Connected to the gateway ${this.options.token}!`);
+            return this.emit("raw", `Connected to the gateway ${this.options.token}!`);
         } catch (error) {
-            this.emit("debug", `An error occurred: ${error.message}`);
+            this.emit("raw", `An error occurred: ${error.message}`);
             await this.destroy();
             throw error;
         }

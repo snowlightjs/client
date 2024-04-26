@@ -1,3 +1,7 @@
+/* This code snippet is defining an interface in TypeScript called `DiscordClientEvents`. Interfaces in
+TypeScript are used to define the structure of an object. In this case, the `DiscordClientEvents`
+interface is specifying the structure of an object that should have properties corresponding to
+various Discord client events. */
 export interface DiscordClientEvents {
     ready: (payload: any) => void;
     raw: (payload: any) => void;
@@ -8,4 +12,6 @@ export interface DiscordClientEvents {
     guildUpdate: (payload: any) => void;
     messageCreate: (payload: any) => void;
     channelUpdate: (payload: any) => void;
+    messageDelete: (payload: any) => void;
+    InteractionCreate: (payload: any) => void;
 }

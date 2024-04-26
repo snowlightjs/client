@@ -16,6 +16,19 @@ interface Events {
 export interface DiscordClientOptions {
     token: string;
     intents: number;
+    shard: {
+        totalShards: number;
+        shardCount: number[];
+    }
+    presence: {
+        activities: [
+            {
+                name: string,
+                url: string,
+                type: number
+            }
+        ]
+    },
 }
 
 /* The class `websocket` in TypeScript represents a WebSocket client for connecting to a Discord
@@ -32,7 +45,7 @@ export default class websocket extends TypedEmitter<Events> {
     isPayloadReady: boolean = false
     timeout_ready_emit: NodeJS.Timeout | null = null
     id: string
-    cache = new Map() 
+    cache = new Map()
     /* The `options` property in the WebSocket class is an object that contains two key-value pairs: */
     options: DiscordClientOptions
     client: Client
@@ -90,7 +103,7 @@ export default class websocket extends TypedEmitter<Events> {
      */
     onMessage(packets: string): void {
         const payload = JSON.parse(packets)
-        this.emit('raw', payload) 
+        this.emit('raw', payload)
         switch (payload.op) {
             case GatewayOpcodes.Hello:
                 this.cache.set(this.id, setInterval(() => {
@@ -150,6 +163,10 @@ export default class websocket extends TypedEmitter<Events> {
                         this.client.channels.cache.delete(payload.d.id);
                         this.client.emit('channelDelete', payload)
                         break
+                    case GatewayDispatchEvents.IntegrationCreate:
+                        this.client.interaction.cache.set(payload.d.id, payload.d);
+                        this.client.emit('InteractionCreate', payload)
+                        break
                     case GatewayDispatchEvents.Resumed:
                         this.debug(`Received RESUMED Gateway`)
                         break;
@@ -161,17 +178,17 @@ export default class websocket extends TypedEmitter<Events> {
         }
     }
 
-   /**
-    * The `onClose` function handles the disconnection from the Discord Gateway by setting certain
-    * properties and reconnecting.
-    * @param {number} code - The `code` parameter in the `onClose` function represents the numeric code
-    * indicating the reason for the connection closure. This code is provided by the WebSocket
-    * connection when it is closed, and different codes represent different reasons for the closure
-    * (e.g., normal closure, abnormal closure, error codes, etc
-    * @param {string} reason - The `reason` parameter in the `onClose` function represents the reason
-    * for the disconnection from the Discord Gateway. It could provide information such as whether the
-    * disconnection was due to an error, timeout, or intentional closure.
-    */
+    /**
+     * The `onClose` function handles the disconnection from the Discord Gateway by setting certain
+     * properties and reconnecting.
+     * @param {number} code - The `code` parameter in the `onClose` function represents the numeric code
+     * indicating the reason for the connection closure. This code is provided by the WebSocket
+     * connection when it is closed, and different codes represent different reasons for the closure
+     * (e.g., normal closure, abnormal closure, error codes, etc
+     * @param {string} reason - The `reason` parameter in the `onClose` function represents the reason
+     * for the disconnection from the Discord Gateway. It could provide information such as whether the
+     * disconnection was due to an error, timeout, or intentional closure.
+     */
     async onClose(code: number, reason: string) {
         this.ping = -1
         this.isReady = false
@@ -179,23 +196,23 @@ export default class websocket extends TypedEmitter<Events> {
         this.connect()
     }
 
-  /**
-   * The `onError` function logs an error message with debug information.
-   * @param {Error} error - The `error` parameter in the `onError` function is of type `Error`, which
-   * is an object that represents an error that occurred during the execution of the code.
-   */
+    /**
+     * The `onError` function logs an error message with debug information.
+     * @param {Error} error - The `error` parameter in the `onError` function is of type `Error`, which
+     * is an object that represents an error that occurred during the execution of the code.
+     */
     onError(error: Error) {
         this.debug(`Error: ${error}`);
     }
 
-   /**
-    * The function `send` sends a JSON stringified payload over a WebSocket connection.
-    * @param {Dictionary} payload - The `payload` parameter in the `send` function is a dictionary
-    * object that contains the data to be sent. It is converted to a JSON string using `JSON.stringify`
-    * before being sent over a WebSocket connection using `this.ws.send(raw)`.
-    * @returns If the `this.ws` property is `null`, the function will return without sending the
-    * payload.
-    */
+    /**
+     * The function `send` sends a JSON stringified payload over a WebSocket connection.
+     * @param {Dictionary} payload - The `payload` parameter in the `send` function is a dictionary
+     * object that contains the data to be sent. It is converted to a JSON string using `JSON.stringify`
+     * before being sent over a WebSocket connection using `this.ws.send(raw)`.
+     * @returns If the `this.ws` property is `null`, the function will return without sending the
+     * payload.
+     */
     send(payload: Dictionary) {
         if (this.ws === null) return
         const raw = JSON.stringify(payload)
@@ -223,12 +240,23 @@ export default class websocket extends TypedEmitter<Events> {
                 token: this.options.token,
                 intents: this.options.intents,
                 properties: { $os: process.platform, $browser: ((await (import("../../package.json"))).name), $device: ((await (import("../../package.json"))).name) },
+                shard: this.client.options.shard.shardCount,
                 compress: false,
                 large_threshold: 50,
+                presence: {
+                    status: 'online',
+                    activities: [
+                        {
+                            name: this.options.presence.activities[0].name,
+                            url: this.options.presence.activities[0].url,
+                            type: this.options.presence.activities[0].type
+                        }
+                    ]
+                },
             },
         })
     }
-    
+
     /**
      * The `resume` function sends a resume payload with the token, session ID, and sequence number to
      * the gateway.
@@ -241,9 +269,9 @@ export default class websocket extends TypedEmitter<Events> {
         })
     }
 
-/**
- * The `Ready` function sets a timeout to update the `isPayloadReady` property after 1500 milliseconds.
- */
+    /**
+     * The `Ready` function sets a timeout to update the `isPayloadReady` property after 1500 milliseconds.
+     */
     Ready() {
         if (this.timeout_ready_emit) clearTimeout(this.timeout_ready_emit)
         this.timeout_ready_emit = setTimeout(() => {

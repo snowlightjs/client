@@ -1,6 +1,6 @@
 {
   "name": "bluelight.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "It's a raw connect gateway discord.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,9 @@
   },
   "author": "FAYStarNext",
   "license": "BSD-3-Clause",
-  "keywords": ["Discord"],
+  "keywords": [
+    "Discord"
+  ],
   "dependencies": {
     "@types/ws": "^8.5.10",
     "discord-api-types": "^0.37.82",
@@ -18,5 +20,8 @@
   },
   "publishConfig": {
     "faystarnext:registry": "https://npm.pkg.github.com"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
   }
 }

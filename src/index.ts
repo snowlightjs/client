@@ -1,7 +1,4 @@
 export * from "./client/websocket"
 export * from "./client/client"
 export * from "./types/Events"
-export * from "./structures/Guilds"
-export * from "./structures/Channel"
-export * from "./structures/Message"
 export * from "./types/Events"

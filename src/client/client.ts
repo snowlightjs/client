@@ -1,20 +1,12 @@
 import { TypedEmitter } from "tiny-typed-emitter";
 import websocket, { DiscordClientOptions } from "./websocket";
 import { DiscordClientEvents } from "../types/Events";
-import { Guilds } from "../structures/Guilds";
-import { Channel } from "../structures/Channel";
-import { Message } from "../structures/Message";
-import { Interaction } from "../structures/Interaction";
 
 /* The `Client` class in TypeScript represents a Discord client with methods for logging in, destroying
 the client, and managing intervals. */
 export class Client extends TypedEmitter<DiscordClientEvents> {
     options: DiscordClientOptions;
     websocket: websocket;
-    public guilds = new Guilds();
-    public channels = new Channel();
-    public message = new Message();
-    public interaction = new Interaction()
     /* The `constructor` method in the `Client` class is a special method in TypeScript that gets called
     when a new instance of the class is created. In this specific code snippet: */
     constructor(options: DiscordClientOptions) {

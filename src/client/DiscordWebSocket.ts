@@ -11,16 +11,17 @@ event with a string payload when certain conditions are met, and other parts of 
 for and handle this event accordingly. */
 interface Events {
     raw: (payload: string) => void
+    connected: (payload: boolean) => void
 }
 
 export interface DiscordClientOptions {
     token: string;
     intents: number;
-    shard: {
+    shard?: {
         totalShards: number;
         shardCount: number[];
     }
-    presence: {
+    presence?: {
         activities: [
             {
                 name: string,
@@ -76,7 +77,11 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
     async connect() {
         const ws = new WebSocket(`wss://gateway.discord.gg/?v=10&encoding=json`)
         this.ws = ws
-        ws.on('open', this.onOpen.bind(this))
+        ws.on('open', () => {
+            this.onOpen.bind(this);
+            this.debug('Connected to Discord Gateway')
+            this.emit("connected", true)
+        })
         ws.on('message', this.onMessage.bind(this))
         ws.on('close', (code: number, reason: string) => this.onClose(code, reason))
         ws.on('error', this.onError.bind(this))
@@ -277,7 +282,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                 token: this.options.token,
                 intents: this.options.intents,
                 properties: { $os: process.platform, $browser: ((await (import("../../package.json"))).name), $device: ((await (import("../../package.json"))).name) },
-                shard: this.client.options.shard.shardCount,
+                shard: this.client.options.shard.shardCount || [0, 1],
                 compress: false,
                 large_threshold: 50,
                 presence: {
@@ -289,7 +294,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                             url: activity.url
                         })
                     })
-                },
+                } || null,
             },
         })
     }
@@ -326,14 +331,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
         this.emit('raw', `[WebSocket] -> ${JSON.stringify(message)}`)
     }
 }
-/* The `export declare interface ShardManagerEvents` statement is declaring an interface named
-`ShardManagerEvents` that defines the structure of events that can be emitted by a `ShardManager`
-class or component. */
-export declare interface ShardManagerEvents {
-    debug: (message: string) => void
-    raw: (message: string) => void
-    ready: () => void
-}
+
 /* The `export declare type Dictionary<V = any, K extends string | symbol = string> = Record<K, V>;`
 statement is defining a TypeScript type alias named `Dictionary`. */
 export declare type Dictionary<V = any, K extends string | symbol = string> = Record<K, V>;

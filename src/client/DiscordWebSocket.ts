@@ -201,6 +201,12 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                     case GatewayDispatchEvents.Resumed:
                         this.debug(`Received RESUMED Gateway`)
                         break;
+                    case GatewayDispatchEvents.WebhooksUpdate:
+                        this.client.emit('webhooksUpdate', payload)
+                        break
+                    default:
+                        this.debug(`Received unknown Gateway with event ${payload.t}`)
+                        break;
                 }
                 break;
             default:

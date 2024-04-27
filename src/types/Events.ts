@@ -25,4 +25,5 @@ export interface DiscordClientEvents {
     guildBanAdd: (payload: any) => void;
     guildMembersChunk: (payload: any) => void;
     presenceUpdate: (payload: any) => void;
+    webhooksUpdate: (payload: any) => void;
 }

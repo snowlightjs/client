@@ -33,7 +33,7 @@ export interface DiscordClientOptions {
 
 /* The class `websocket` in TypeScript represents a WebSocket client for connecting to a Discord
 gateway server, handling various events and payloads. */
-export default class websocket extends TypedEmitter<Events> {
+export default class DiscordWebSocket extends TypedEmitter<Events> {
     ws: WebSocket | null = null
     lasttimeHeartbeat: number = 0
     start_time: Date = new Date()

@@ -276,13 +276,13 @@ export default class websocket extends TypedEmitter<Events> {
                 large_threshold: 50,
                 presence: {
                     status: 'online',
-                    activities: [
-                        {
-                            name: this.options.presence.activities[0].name,
-                            url: this.options.presence.activities[0].url,
-                            type: this.options.presence.activities[0].type
-                        }
-                    ]
+                    activities: this.options.presence.activities.map((activity: any) => {
+                        return ({
+                            name: activity.name,
+                            type: activity.type,
+                            url: activity.url
+                        })
+                    })
                 },
             },
         })

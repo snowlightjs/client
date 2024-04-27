@@ -2,6 +2,7 @@
 ## Description
 It's a raw connect gateway discord.
 # How to use
+- Discord Developer Portal: https://discord.com/developers/applications
 ```ts
 import { Client } from "bluelight.js"
 const client = new Client({

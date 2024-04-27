@@ -1,12 +1,12 @@
 import { TypedEmitter } from "tiny-typed-emitter";
-import websocket, { DiscordClientOptions } from "./websocket";
+import DiscordWebSocket, { DiscordClientOptions } from "./DiscordWebSocket";
 import { DiscordClientEvents } from "../types/Events";
 
 /* The `Client` class in TypeScript represents a Discord client with methods for logging in, destroying
 the client, and managing intervals. */
 export class Client extends TypedEmitter<DiscordClientEvents> {
     options: DiscordClientOptions;
-    websocket: websocket;
+    websocket: DiscordWebSocket;
     /* The `constructor` method in the `Client` class is a special method in TypeScript that gets called
     when a new instance of the class is created. In this specific code snippet: */
     constructor(options: DiscordClientOptions) {
@@ -20,7 +20,7 @@ export class Client extends TypedEmitter<DiscordClientEvents> {
             shard: options.shard,
             presence: options.presence,
         };
-        this.websocket = new websocket(this.options, this);
+        this.websocket = new DiscordWebSocket(this.options, this);
     }
     /**
      * The `destroy` function emits a "raw" event indicating the client has been destroyed and then
@@ -47,7 +47,6 @@ export class Client extends TypedEmitter<DiscordClientEvents> {
     */
     public async login(token: string = this.options.token) {
         if (!token || typeof token !== 'string') throw new Error("Token must be a string");
-        this.options.token = token = token.replace(/^(Bot|Bearer)\s*/i, '');
         this.emit("raw", `Provided token: ${this.options.token}`);
         this.emit("raw", 'Preparing to connect to the gateway...');
         try {
@@ -58,7 +57,7 @@ export class Client extends TypedEmitter<DiscordClientEvents> {
             });
             if (!discord.ok) {
                 throw new Error(`Failed to fetch the gateway: ${discord.statusText}`);
-            }
+            } 
             await this.websocket.connect();
             return this.emit("raw", `Connected to the gateway ${this.options.token}!`);
         } catch (error) {

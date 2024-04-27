@@ -33,7 +33,7 @@ export interface DiscordClientOptions {
 
 /* The class `websocket` in TypeScript represents a WebSocket client for connecting to a Discord
 gateway server, handling various events and payloads. */
-export default class websocket extends TypedEmitter<Events> {
+export default class DiscordWebSocket extends TypedEmitter<Events> {
     ws: WebSocket | null = null
     lasttimeHeartbeat: number = 0
     start_time: Date = new Date()
@@ -201,6 +201,12 @@ export default class websocket extends TypedEmitter<Events> {
                     case GatewayDispatchEvents.Resumed:
                         this.debug(`Received RESUMED Gateway`)
                         break;
+                    case GatewayDispatchEvents.WebhooksUpdate:
+                        this.client.emit('webhooksUpdate', payload)
+                        break
+                    default:
+                        this.debug(`Received unknown Gateway with event ${payload.t}`)
+                        break;
                 }
                 break;
             default:
@@ -276,13 +282,13 @@ export default class websocket extends TypedEmitter<Events> {
                 large_threshold: 50,
                 presence: {
                     status: 'online',
-                    activities: [
-                        {
-                            name: this.options.presence.activities[0].name,
-                            url: this.options.presence.activities[0].url,
-                            type: this.options.presence.activities[0].type
-                        }
-                    ]
+                    activities: this.options.presence.activities.map((activity: any) => {
+                        return ({
+                            name: activity.name,
+                            type: activity.type,
+                            url: activity.url
+                        })
+                    })
                 },
             },
         })

@@ -1,9 +1,12 @@
 # BlueLight.JS
-make your discord bot with bluelight.js
+A simple way to make your discord bot with bluelight.js
 # Features
 - Low Memory Usage
+- Custom Cache System
+- Fast Connect to Gateway
 ## Description
 It's a raw connect gateway discord.
+Docs: https://docs.faystarnext.studio/
 # How to use
 - Discord Developer Portal: https://discord.com/developers/applications
 1. Install the package

@@ -14,4 +14,15 @@ export interface DiscordClientEvents {
     channelUpdate: (payload: any) => void;
     messageDelete: (payload: any) => void;
     InteractionCreate: (payload: any) => void;
+    voiceStateUpdate: (payload: any) => void;
+    messageUpdate: (payload: any) => void;
+    messageDeleteBulk: (payload: any) => void;
+    guildBanRemove: (payload: any) => void;
+    guildMemberAdd: (payload: any) => void;
+    guildMemberRemove: (payload: any) => void;
+    guildMemberUpdate: (payload: any) => void;
+    guildEmojisUpdate: (payload: any) => void;
+    guildBanAdd: (payload: any) => void;
+    guildMembersChunk: (payload: any) => void;
+    presenceUpdate: (payload: any) => void;
 }

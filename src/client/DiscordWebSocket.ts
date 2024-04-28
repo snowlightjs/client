@@ -161,7 +161,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                     case GatewayDispatchEvents.ChannelDelete:
                         this.client.emit('channelDelete', payload)
                         break
-                    case GatewayDispatchEvents.IntegrationCreate:
+                    case GatewayDispatchEvents.InteractionCreate:
                         this.client.emit('InteractionCreate', payload)
                         break
                     case GatewayDispatchEvents.VoiceStateUpdate:

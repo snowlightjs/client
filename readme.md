@@ -23,7 +23,4 @@ const client = new Client({
     token: "YOUR_BOT_TOKEN" // Your bot token
 })
 client.login(); // Connect to gateway
-client.on("ready", () => {
-    console.log("Bot is ready!") // When bot is ready
-})
 ```

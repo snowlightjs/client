@@ -1,8 +1,6 @@
 import WebSocket from 'ws'
 import { TypedEmitter } from 'tiny-typed-emitter'
 import { GatewayDispatchEvents, GatewayOpcodes } from 'discord-api-types/v10'
-import { Client } from './client';
-
 
 /* The `interface Events` is defining a structure that specifies the shape of events that can be
 emitted by the WebSocket class. In this case, it defines an event named `raw` that takes a payload
@@ -11,16 +9,17 @@ event with a string payload when certain conditions are met, and other parts of 
 for and handle this event accordingly. */
 interface Events {
     raw: (payload: string) => void
+    connected: (payload: boolean) => void
 }
 
 export interface DiscordClientOptions {
     token: string;
     intents: number;
-    shard: {
+    shard?: {
         totalShards: number;
         shardCount: number[];
     }
-    presence: {
+    presence?: {
         activities: [
             {
                 name: string,
@@ -34,7 +33,7 @@ export interface DiscordClientOptions {
 /* The class `websocket` in TypeScript represents a WebSocket client for connecting to a Discord
 gateway server, handling various events and payloads. */
 export default class DiscordWebSocket extends TypedEmitter<Events> {
-    ws: WebSocket | null = null
+    ws: WebSocket
     lasttimeHeartbeat: number = 0
     start_time: Date = new Date()
     sessionId: string | null = null
@@ -48,7 +47,6 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
     cache = new Map()
     /* The `options` property in the WebSocket class is an object that contains two key-value pairs: */
     options: DiscordClientOptions
-    client: Client
     /**
      * The above function is a TypeScript constructor that takes a single parameter and calls the
      * superclass constructor.
@@ -56,10 +54,9 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
      * should be read-only once it is initialized. This means that the property can only be set during
      * object creation and cannot be modified afterwards.
      */
-    constructor(options: DiscordClientOptions, client: Client) {
+    constructor(options: DiscordClientOptions) {
         super()
         this.options = options
-        this.client = client
     }
 
     /*
@@ -73,10 +70,14 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
      * The `connect` function establishes a WebSocket connection to a Discord gateway server and sets
      * up event handlers for open, message, close, and error events.
      */
-    async connect() {
+    connect() {
         const ws = new WebSocket(`wss://gateway.discord.gg/?v=10&encoding=json`)
         this.ws = ws
-        ws.on('open', this.onOpen.bind(this))
+        ws.on('open', () => {
+            this.onOpen.bind(this);
+            this.debug('Connected to Discord Gateway')
+            this.emit("connected", true)
+        })
         ws.on('message', this.onMessage.bind(this))
         ws.on('close', (code: number, reason: string) => this.onClose(code, reason))
         ws.on('error', this.onError.bind(this))
@@ -133,77 +134,10 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                     case GatewayDispatchEvents.Ready:
                         this.sessionId = payload.d.session_id
                         this.debug(`Received READY Gateway with session id (${this.sessionId})`)
-                        this.client.emit('ready', payload)
                         break;
-                    case GatewayDispatchEvents.MessageCreate:
-                        this.client.emit('messageCreate', payload)
-                        break;
-                    case GatewayDispatchEvents.GuildCreate:
-                        this.client.emit('guildCreate', payload)
-                        break
-                    case GatewayDispatchEvents.GuildUpdate:
-                        this.client.emit('guildUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.GuildDelete:
-                        this.client.emit('guildDelete', payload)
-                        break
-                    case GatewayDispatchEvents.ChannelCreate:
-                        this.client.emit('channelCreate', payload)
-                        break
-                    case GatewayDispatchEvents.ChannelUpdate:
-                        this.client.emit('channelUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.ChannelDelete:
-                        this.client.emit('channelDelete', payload)
-                        break
-                    case GatewayDispatchEvents.IntegrationCreate:
-                        this.client.emit('InteractionCreate', payload)
-                        break
-                    case GatewayDispatchEvents.VoiceStateUpdate:
-                        this.client.emit('voiceStateUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.VoiceServerUpdate:
-                        this.client.emit('voiceStateUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.MessageDelete:
-                        this.client.emit('messageDelete', payload)
-                        break
-                    case GatewayDispatchEvents.MessageUpdate:
-                        this.client.emit('messageUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.MessageDeleteBulk:
-                        this.client.emit('messageDeleteBulk', payload)
-                        break
-                    case GatewayDispatchEvents.GuildBanAdd:
-                        this.client.emit('guildBanAdd', payload)
-                        break
-                    case GatewayDispatchEvents.GuildBanRemove:
-                        this.client.emit('guildBanRemove', payload)
-                        break
-                    case GatewayDispatchEvents.GuildEmojisUpdate:
-                        this.client.emit('guildEmojisUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.GuildMemberAdd:
-                        this.client.emit('guildMemberAdd', payload)
-                        break
-                    case GatewayDispatchEvents.GuildMemberRemove:
-                        this.client.emit('guildMemberRemove', payload)
-                        break
-                    case GatewayDispatchEvents.GuildMemberUpdate:
-                        this.client.emit('guildMemberUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.GuildMembersChunk:
-                        this.client.emit('guildMembersChunk', payload)
-                        break
-                    case GatewayDispatchEvents.PresenceUpdate:
-                        this.client.emit('presenceUpdate', payload)
-                        break
                     case GatewayDispatchEvents.Resumed:
                         this.debug(`Received RESUMED Gateway`)
                         break;
-                    case GatewayDispatchEvents.WebhooksUpdate:
-                        this.client.emit('webhooksUpdate', payload)
-                        break
                     default:
                         this.debug(`Received unknown Gateway with event ${payload.t}`)
                         break;
@@ -277,7 +211,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                 token: this.options.token,
                 intents: this.options.intents,
                 properties: { $os: process.platform, $browser: ((await (import("../../package.json"))).name), $device: ((await (import("../../package.json"))).name) },
-                shard: this.client.options.shard.shardCount,
+                shard: this.options.shard.shardCount || [0, 1],
                 compress: false,
                 large_threshold: 50,
                 presence: {
@@ -289,7 +223,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                             url: activity.url
                         })
                     })
-                },
+                } || null,
             },
         })
     }
@@ -326,14 +260,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
         this.emit('raw', `[WebSocket] -> ${JSON.stringify(message)}`)
     }
 }
-/* The `export declare interface ShardManagerEvents` statement is declaring an interface named
-`ShardManagerEvents` that defines the structure of events that can be emitted by a `ShardManager`
-class or component. */
-export declare interface ShardManagerEvents {
-    debug: (message: string) => void
-    raw: (message: string) => void
-    ready: () => void
-}
+
 /* The `export declare type Dictionary<V = any, K extends string | symbol = string> = Record<K, V>;`
 statement is defining a TypeScript type alias named `Dictionary`. */
 export declare type Dictionary<V = any, K extends string | symbol = string> = Record<K, V>;

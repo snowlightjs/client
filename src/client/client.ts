@@ -11,16 +11,13 @@ export class Client extends TypedEmitter<DiscordClientEvents> {
     when a new instance of the class is created. In this specific code snippet: */
     constructor(options: DiscordClientOptions) {
         super();
-        if (typeof options !== 'object' || options === null) {
-            throw new Error("Options must be an object");
-        }
         this.options = {
             token: options.token,
             intents: options.intents,
             shard: options.shard,
             presence: options.presence,
         };
-        this.websocket = new DiscordWebSocket(this.options, this);
+        this.websocket = new DiscordWebSocket(this.options);
     }
     /**
      * The `destroy` function emits a "raw" event indicating the client has been destroyed and then
@@ -29,7 +26,7 @@ export class Client extends TypedEmitter<DiscordClientEvents> {
      * declared with the `async` keyword. The promise will resolve with the value `process.exit(0)`
      * once the function completes.
      */
-    public async destroy() {
+    public destroy() {
         this.emit("raw", 'Destroyed the client');
         return process.exit(0);
     }

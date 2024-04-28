@@ -1,7 +1,12 @@
 # BlueLight.JS
-make your discord bot with bluelight.js
+A simple way to make your discord bot with bluelight.js
+Docs: https://docs.faystarnext.studio/bluelight/home
 # Features
 - Low Memory Usage
+- Custom Cache System
+- Fast Connect to Gateway
+## Table of Contents
+- [How to use](#how-to-use)
 ## Description
 It's a raw connect gateway discord.
 # How to use
@@ -14,11 +19,8 @@ npm install bluelight.js | yarn add bluelight.js
 ```ts
 import { Client } from "bluelight.js"
 const client = new Client({
-    intents: 1,
-    token: "YOUR_BOT_TOKEN"
+    intents: 1, // Intents: discord.com/developers/docs/topics/gateway#gateway-intents | https://discord-intents-calculator.vercel.app/
+    token: "YOUR_BOT_TOKEN" // Your bot token
 })
-client.login();
-client.on("ready", () => {
-    console.log("Bot is ready!")
-})
+client.login(); // Connect to gateway
 ```

@@ -3,27 +3,41 @@ TypeScript are used to define the structure of an object. In this case, the `Dis
 interface is specifying the structure of an object that should have properties corresponding to
 various Discord client events. */
 export interface DiscordClientEvents {
-    ready: (payload: any) => void;
+    ready: (payload: ReadyEvent) => void;
     raw: (payload: any) => void;
-    guildCreate: (payload: any) => void;
-    guildDelete: (payload: any) => void;
-    channelCreate: (payload: any) => void;
-    channelDelete: (payload: any) => void;
-    guildUpdate: (payload: any) => void;
-    messageCreate: (payload: any) => void;
-    channelUpdate: (payload: any) => void;
-    messageDelete: (payload: any) => void;
-    InteractionCreate: (payload: any) => void;
-    voiceStateUpdate: (payload: any) => void;
-    messageUpdate: (payload: any) => void;
-    messageDeleteBulk: (payload: any) => void;
-    guildBanRemove: (payload: any) => void;
-    guildMemberAdd: (payload: any) => void;
-    guildMemberRemove: (payload: any) => void;
-    guildMemberUpdate: (payload: any) => void;
-    guildEmojisUpdate: (payload: any) => void;
-    guildBanAdd: (payload: any) => void;
-    guildMembersChunk: (payload: any) => void;
-    presenceUpdate: (payload: any) => void;
-    webhooksUpdate: (payload: any) => void;
+}
+export interface ReadyEvent {
+    t: 'READY',
+    s: 1,
+    op: 0,
+    d: {
+        v: 10,
+        user_settings: {},
+        user: {
+            verified: boolean,
+            username: string,
+            mfa_enabled: boolean,
+            id: string,
+            global_name: null,
+            flags: number,
+            email: null,
+            discriminator: string,
+            clan: null,
+            bot: boolean,
+            avatar: string
+        },
+        shard: number[],
+        session_type: string,
+        session_id: string,
+        resume_gateway_url: string,
+        relationships: [],
+        private_channels: [],
+        presences: [],
+        guilds: [],
+        guild_join_requests: [],
+        geo_ordered_rtc_regions: string[],
+        auth: {},
+        application: { id: string, flags: number },
+        _trace: []
+    }
 }

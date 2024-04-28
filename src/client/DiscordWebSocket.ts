@@ -140,75 +140,9 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                         this.debug(`Received READY Gateway with session id (${this.sessionId})`)
                         this.client.emit('ready', payload)
                         break;
-                    case GatewayDispatchEvents.MessageCreate:
-                        this.client.emit('messageCreate', payload)
-                        break;
-                    case GatewayDispatchEvents.GuildCreate:
-                        this.client.emit('guildCreate', payload)
-                        break
-                    case GatewayDispatchEvents.GuildUpdate:
-                        this.client.emit('guildUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.GuildDelete:
-                        this.client.emit('guildDelete', payload)
-                        break
-                    case GatewayDispatchEvents.ChannelCreate:
-                        this.client.emit('channelCreate', payload)
-                        break
-                    case GatewayDispatchEvents.ChannelUpdate:
-                        this.client.emit('channelUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.ChannelDelete:
-                        this.client.emit('channelDelete', payload)
-                        break
-                    case GatewayDispatchEvents.InteractionCreate:
-                        this.client.emit('InteractionCreate', payload)
-                        break
-                    case GatewayDispatchEvents.VoiceStateUpdate:
-                        this.client.emit('voiceStateUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.VoiceServerUpdate:
-                        this.client.emit('voiceStateUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.MessageDelete:
-                        this.client.emit('messageDelete', payload)
-                        break
-                    case GatewayDispatchEvents.MessageUpdate:
-                        this.client.emit('messageUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.MessageDeleteBulk:
-                        this.client.emit('messageDeleteBulk', payload)
-                        break
-                    case GatewayDispatchEvents.GuildBanAdd:
-                        this.client.emit('guildBanAdd', payload)
-                        break
-                    case GatewayDispatchEvents.GuildBanRemove:
-                        this.client.emit('guildBanRemove', payload)
-                        break
-                    case GatewayDispatchEvents.GuildEmojisUpdate:
-                        this.client.emit('guildEmojisUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.GuildMemberAdd:
-                        this.client.emit('guildMemberAdd', payload)
-                        break
-                    case GatewayDispatchEvents.GuildMemberRemove:
-                        this.client.emit('guildMemberRemove', payload)
-                        break
-                    case GatewayDispatchEvents.GuildMemberUpdate:
-                        this.client.emit('guildMemberUpdate', payload)
-                        break
-                    case GatewayDispatchEvents.GuildMembersChunk:
-                        this.client.emit('guildMembersChunk', payload)
-                        break
-                    case GatewayDispatchEvents.PresenceUpdate:
-                        this.client.emit('presenceUpdate', payload)
-                        break
                     case GatewayDispatchEvents.Resumed:
                         this.debug(`Received RESUMED Gateway`)
                         break;
-                    case GatewayDispatchEvents.WebhooksUpdate:
-                        this.client.emit('webhooksUpdate', payload)
-                        break
                     default:
                         this.debug(`Received unknown Gateway with event ${payload.t}`)
                         break;

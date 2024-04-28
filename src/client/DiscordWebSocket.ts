@@ -35,7 +35,7 @@ export interface DiscordClientOptions {
 /* The class `websocket` in TypeScript represents a WebSocket client for connecting to a Discord
 gateway server, handling various events and payloads. */
 export default class DiscordWebSocket extends TypedEmitter<Events> {
-    ws: WebSocket | null = null
+    ws: WebSocket
     lasttimeHeartbeat: number = 0
     start_time: Date = new Date()
     sessionId: string | null = null
@@ -74,7 +74,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
      * The `connect` function establishes a WebSocket connection to a Discord gateway server and sets
      * up event handlers for open, message, close, and error events.
      */
-    async connect() {
+    connect() {
         const ws = new WebSocket(`wss://gateway.discord.gg/?v=10&encoding=json`)
         this.ws = ws
         ws.on('open', () => {

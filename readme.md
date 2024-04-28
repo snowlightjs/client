@@ -5,7 +5,7 @@ Docs: https://docs.faystarnext.studio/bluelight/home
 - Low Memory Usage
 - Custom Cache System
 - Fast Connect to Gateway
-# Table of Contents
+## Table of Contents
 - [How to use](#how-to-use)
 ## Description
 It's a raw connect gateway discord.

@@ -1,8 +1,6 @@
 import WebSocket from 'ws'
 import { TypedEmitter } from 'tiny-typed-emitter'
 import { GatewayDispatchEvents, GatewayOpcodes } from 'discord-api-types/v10'
-import { Client } from './client';
-
 
 /* The `interface Events` is defining a structure that specifies the shape of events that can be
 emitted by the WebSocket class. In this case, it defines an event named `raw` that takes a payload
@@ -49,7 +47,6 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
     cache = new Map()
     /* The `options` property in the WebSocket class is an object that contains two key-value pairs: */
     options: DiscordClientOptions
-    client: Client
     /**
      * The above function is a TypeScript constructor that takes a single parameter and calls the
      * superclass constructor.
@@ -57,10 +54,9 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
      * should be read-only once it is initialized. This means that the property can only be set during
      * object creation and cannot be modified afterwards.
      */
-    constructor(options: DiscordClientOptions, client: Client) {
+    constructor(options: DiscordClientOptions) {
         super()
         this.options = options
-        this.client = client
     }
 
     /*
@@ -138,7 +134,6 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                     case GatewayDispatchEvents.Ready:
                         this.sessionId = payload.d.session_id
                         this.debug(`Received READY Gateway with session id (${this.sessionId})`)
-                        this.client.emit('ready', payload)
                         break;
                     case GatewayDispatchEvents.Resumed:
                         this.debug(`Received RESUMED Gateway`)
@@ -216,7 +211,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                 token: this.options.token,
                 intents: this.options.intents,
                 properties: { $os: process.platform, $browser: ((await (import("../../package.json"))).name), $device: ((await (import("../../package.json"))).name) },
-                shard: this.client.options.shard.shardCount || [0, 1],
+                shard: this.options.shard.shardCount || [0, 1],
                 compress: false,
                 large_threshold: 50,
                 presence: {

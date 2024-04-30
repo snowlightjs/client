@@ -1,4 +1,4 @@
-# BlueLight.JS
+# SnowLight.js
 A simple way to make your discord bot with bluelight.js
 Docs: https://docs.faystarnext.studio/bluelight/home
 # Features

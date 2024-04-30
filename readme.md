@@ -13,7 +13,7 @@ It's a raw connect gateway discord.
 - Discord Developer Portal: https://discord.com/developers/applications
 1. Install the package
 ```bash
-npm install bluelight.js | yarn add bluelight.js
+npm i snowlight.js | yarn add snowlight.js
 ```
 2. Create a new file and paste the following code
 ```ts

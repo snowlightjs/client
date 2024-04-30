@@ -1,5 +1,5 @@
 {
-  "name": "bluelight.js",
+  "name": "snowlight.js",
   "version": "0.0.9",
   "description": "It's a raw connect gateway discord.",
   "main": "dist/index.js",

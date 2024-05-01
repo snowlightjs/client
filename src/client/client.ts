@@ -55,7 +55,7 @@ export class Client extends TypedEmitter<DiscordClientEvents> {
             if (!discord.ok) {
                 throw new Error(`Failed to fetch the gateway: ${discord.statusText}`);
             } 
-            this.websocket.connect();
+            await this.websocket.connect();
             return this.emit("raw", `Connected to the gateway ${this.options.token}!`);
         } catch (error) {
             this.emit("raw", `An error occurred: ${error.message}`);

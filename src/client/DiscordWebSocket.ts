@@ -223,7 +223,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                             url: activity.url
                         })
                     })
-                } || null,
+                } || [],
             },
         })
     }

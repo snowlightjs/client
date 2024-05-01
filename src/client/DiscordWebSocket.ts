@@ -103,6 +103,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
      * to handle the message. The function
      */
     onMessage(packets: string): void {
+        console.log(JSON.parse(packets))
         const payload = JSON.parse(packets)
         this.emit('raw', payload)
         switch (payload.op) {

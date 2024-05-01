@@ -188,6 +188,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
         if (this.ws === null) return
         const raw = JSON.stringify(payload)
         this.ws.send(raw)
+        console.log(payload)
     }
 
     /**
@@ -210,20 +211,20 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
             d: {
                 token: this.options.token,
                 intents: this.options.intents,
-                properties: { $os: process.platform, $browser: ((await (import("../../package.json"))).name), $device: ((await (import("../../package.json"))).name) },
-                shard: this.options.shard.shardCount || [0, 1],
+                properties: { $os: process.platform, $browser: ((await import("../../package.json")).name), $device: ((await import("../../package.json")).name) },
+                shard: this.options.shard?.shardCount || [0, 1],
                 compress: false,
                 large_threshold: 50,
                 presence: {
                     status: 'online',
-                    activities: this.options.presence.activities.map((activity: any) => {
+                    activities: this.options.presence?.activities?.map((activity: any) => {
                         return ({
                             name: activity.name,
                             type: activity.type,
                             url: activity.url
                         })
-                    })
-                } || null,
+                    }) || {}
+                } || [],
             },
         })
     }

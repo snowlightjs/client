@@ -45,7 +45,6 @@ export class Client extends TypedEmitter<DiscordClientEvents> {
     public async login(token: string = this.options.token) {
         if (!token || typeof token !== 'string') throw new Error("Token must be a string");
         this.emit("raw", `Provided token: ${this.options.token}`);
-        this.emit("raw", 'Preparing to connect to the gateway...');
         try {
             const discord = await fetch(`https://discord.com/api/v10/gateway/bot`, {
                 headers: {

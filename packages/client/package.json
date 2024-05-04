@@ -1,0 +1,12 @@
+{
+  "name": "snowlight.js",
+  "version": "0.0.1-dev",
+  "description": "A Discord bot framework for Typescript",
+  "main": "dist/index.js",
+  "repository": "https://github.com/FAYStarNext/SnowLight.js",
+  "author": "FAYStarNext",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@types/node": "^20.12.8"
+  }
+}

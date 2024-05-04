@@ -27,6 +27,7 @@
     "faystarnext:registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
+    "@types/node": "^20.12.8",
     "typedoc": "^0.25.13",
     "typescript": "^5.4.5"
   }

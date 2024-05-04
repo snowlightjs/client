@@ -23,9 +23,9 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
+      - run: cd packages/gateway
       - run: npm i
       - run: npm i typescript
-      - run: cd packages/gateway
       - run: npx tsc
       - run: npm publish
         env:
@@ -40,9 +40,9 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
+      - run: cd packages/client
       - run: npm i
       - run: npm i typescript
-      - run: cd packages/client
       - run: npx tsc
       - run: npm publish
         env:

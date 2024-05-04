@@ -6,7 +6,7 @@
   "repository": "https://github.com/FAYStarNext/SnowLight.js",
   "author": "FAYStarNext",
   "license": "BSD-3-Clause",
-  "dependencies": {
+  "devDependencies": {
     "@types/node": "^20.12.8"
   }
 }

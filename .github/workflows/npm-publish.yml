@@ -32,6 +32,3 @@ jobs:
       - run: npm publish ./dist/gateway/
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB }}
-      - run: npm publish ./dist/clent/
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB }}

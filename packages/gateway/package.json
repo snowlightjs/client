@@ -25,7 +25,7 @@
   },
   "homepage": "https://docs.faystarnext.studio/snowlight/home",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "snowlightjs:registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",

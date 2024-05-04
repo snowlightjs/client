@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: 16
       - run: npm i
-  publish-npm-gateway:
+  publish-npm:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -23,29 +23,11 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
-      - run: cd packages/gateway
       - run: npm i
       - run: npm i typescript
       - run: ls
       - run: npx tsc
-      - run: npm publish
+      - run: npm publish .\dist\gateway\ --access public
+      - run: npm publish .\dist\clent\ --access public
         env:
             NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-    
-  publish-npm-client:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
-      - run: cd packages/client
-      - run: npm i
-      - run: npm i typescript
-      - run: ls
-      - run: npx tsc
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}

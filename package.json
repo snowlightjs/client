@@ -1,7 +1,7 @@
 {
   "name": "@faystarnext/snowlight",
   "version": "0.0.0",
-	"private": true,
+  "private": true,
   "description": "It's a raw connect gateway discord.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,5 +18,15 @@
   "homepage": "https://docs.faystarnext.studio/snowlight/home",
   "publishConfig": {
     "faystarnext:registry": "https://npm.pkg.github.com"
+  },
+  "dependencies": {
+    "discord-api-types": "^0.37.83",
+    "tiny-typed-emitter": "^2.1.0",
+    "ws": "^8.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.8",
+    "@types/ws": "^8.5.10",
+    "typescript": "^5.4.5"
   }
 }

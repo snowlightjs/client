@@ -30,6 +30,8 @@ jobs:
       - run: npm i typescript
       - run: npx tsc
       - run: npm publish ./dist/gateway/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB }}
       - run: npm publish ./dist/clent/
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB}}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB }}

@@ -8,5 +8,8 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@types/node": "^20.12.8"
+  },
+  "dependencies": {
+    "@snowlight.js/gateway": "^0.0.13"
   }
 }

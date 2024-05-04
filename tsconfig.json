@@ -17,6 +17,9 @@
         "noFallthroughCasesInSwitch": true,
         "forceConsistentCasingInFileNames": true
     },
+    "include": [
+        "./packages/**/*.ts"
+    ],
     "exclude": [
         "node_modules"
     ]

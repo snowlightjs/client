@@ -1,5 +1,5 @@
 {
-  "name": "@snowlight.js/gateway",
+  "name": "@snowlightjs/gateway",
   "version": "0.0.14-dev",
   "description": "It's a raw connect gateway discord.",
   "main": "src/index.js",
@@ -20,13 +20,10 @@
     "ws": "^8.16.0"
   },
   "repository": {
-    "url": "https://github.com/FAYStarNext/SnowLight.js",
+    "url": "https://github.com/snowlightjs/SnowLight.js",
     "type": "git"
   },
   "homepage": "https://docs.faystarnext.studio/snowlight/home",
-  "publishConfig": {
-    "snowlightjs:registry": "https://npm.pkg.github.com"
-  },
   "devDependencies": {
     "@types/node": "^20.12.8",
     "typedoc": "^0.25.13",

@@ -9,7 +9,7 @@
     },
     "include": [
         "./src/**/*.ts",
-        "./readme.md"
+        "./.npmignore"
     ],
     "exclude": [
         "node_modules"

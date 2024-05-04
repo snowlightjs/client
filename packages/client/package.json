@@ -3,7 +3,8 @@
   "version": "0.0.1-dev",
   "description": "A Discord bot framework for Typescript",
   "main": "dist/index.js",
-  "repository": "https://github.com/FAYStarNext/SnowLight.js",
+  "types": "src/index.d.ts",
+  "repository": "https://github.com/snowlightjs/SnowLight.js",
   "author": "FAYStarNext",
   "license": "BSD-3-Clause",
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@snowlightjs/gateway",
-  "version": "0.0.14-dev",
+  "version": "0.0.14.1-dev",
   "description": "It's a raw connect gateway discord.",
   "main": "src/index.js",
   "types": "src/index.d.ts",

@@ -25,6 +25,7 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: ls
+      - run: npm i typescript
       - run: npx tsc
       - run: npm publish .\dist\gateway\
       - run: npm publish .\dist\clent\

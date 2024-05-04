@@ -24,8 +24,9 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: cd packages/gateway
-      - run: yarn
-      - run: npm install --save-dev @types/ws @types/node
+      - run: npm i
+      - run: npm i typescript
+      - run: ls
       - run: npx tsc
       - run: npm publish
         env:
@@ -43,6 +44,7 @@ jobs:
       - run: cd packages/client
       - run: npm i
       - run: npm i typescript
+      - run: ls
       - run: npx tsc
       - run: npm publish
         env:

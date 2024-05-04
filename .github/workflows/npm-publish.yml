@@ -27,7 +27,7 @@ jobs:
       - run: ls
       - run: npm i typescript
       - run: npx tsc
-      - run: npm publish .\dist\gateway\
-      - run: npm publish .\dist\clent\
+      - run: npm publish ./dist/gateway
+      - run: npm publish .\dist/clent/
         env:
             NODE_AUTH_TOKEN: ${{secrets.npm_token}}

@@ -19,6 +19,9 @@
     "tiny-typed-emitter": "^2.1.0",
     "ws": "^8.16.0"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "repository": {
     "url": "https://github.com/snowlightjs/SnowLight.js",
     "type": "git"

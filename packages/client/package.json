@@ -15,7 +15,8 @@
     "@types/node": "^20.12.8"
   },
   "dependencies": {
-    "@snowlightjs/gateway": "0.0.1-4.2-dev",
+    "@snowlightjs/gateway": "^0.0.1-4.3-dev",
+    "discord-api-types": "^0.37.83",
     "tiny-typed-emitter": "^2.1.0"
   }
 }

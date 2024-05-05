@@ -8,9 +8,7 @@
         "outDir": "./dist"
     },
     "include": [
-        "./src/**/*.ts",
-        "./.npmignore",
-        "./package.json"
+        "./src/**/*.ts"
     ],
     "exclude": [
         "node_modules"

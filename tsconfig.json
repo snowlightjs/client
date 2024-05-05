@@ -3,7 +3,7 @@
     "compilerOptions": {
         "target": "ES2021",
         "module": "commonjs",
-        "rootDir": "./packages",
+        "rootDir": "./packages/",
         "outDir": "./dist",
         "esModuleInterop": true,
         "resolveJsonModule": true,
@@ -18,7 +18,9 @@
         "forceConsistentCasingInFileNames": true
     },
     "include": [
-        "./packages/**/*.ts"
+        "./packages/**/*.ts",
+        "./packages/client/package.json",
+        "./packages/gateway/package.json"
     ],
     "exclude": [
         "node_modules"

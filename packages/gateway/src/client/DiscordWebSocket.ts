@@ -10,6 +10,7 @@ for and handle this event accordingly. */
 interface Events {
     raw: (payload: string) => void
     connected: (payload: boolean) => void
+    dispatch: (payload: any) => void
 }
 
 export interface DiscordClientOptions {
@@ -129,6 +130,7 @@ export default class DiscordWebSocket extends TypedEmitter<Events> {
                 this.reconnect();
                 break;
             case GatewayOpcodes.Dispatch:
+                this.emit('dispatch', payload)
                 this.sequenceNumber = payload.s
                 switch (payload.t) {
                     case GatewayDispatchEvents.Ready:

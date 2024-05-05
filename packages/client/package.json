@@ -7,9 +7,15 @@
   "repository": "https://github.com/snowlightjs/SnowLight.js",
   "author": "FAYStarNext",
   "license": "BSD-3-Clause",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "devDependencies": {
     "@types/node": "^20.12.8"
   },
   "dependencies": {
+    "@snowlightjs/gateway": "0.0.1-4.2-dev",
+    "tiny-typed-emitter": "^2.1.0"
   }
 }

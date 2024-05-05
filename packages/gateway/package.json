@@ -1,10 +1,9 @@
 {
   "name": "@snowlightjs/gateway",
-  "version": "0.0.14.1-dev",
+  "version": "0.0.14.2-dev",
   "description": "It's a raw connect gateway discord.",
   "main": "src/index.js",
   "types": "src/index.d.ts",
-  "private": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,7 +19,8 @@
     "ws": "^8.16.0"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "repository": {
     "url": "https://github.com/snowlightjs/SnowLight.js",

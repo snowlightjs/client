@@ -1,7 +1,6 @@
 {
   "name": "@faystarnext/snowlight",
   "version": "0.0.0",
-  "private": false,
   "description": "It's a raw connect gateway discord.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

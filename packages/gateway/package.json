@@ -20,7 +20,7 @@
     "ws": "^8.16.0"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://registry.npmjs.org/"
   },
   "repository": {
     "url": "https://github.com/snowlightjs/SnowLight.js",

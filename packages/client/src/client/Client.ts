@@ -46,7 +46,7 @@ export class Client extends TypedEmitter<DiscordClientEvents> {
         };
         this.websocket = new DiscordWebSocket(this.options);
         this.websocket.on("raw", (payload) => this.emit("raw", payload));
-        this.websocket.on("d", this.onMessage.bind(this));
+        this.websocket.on("raw", (p) => this.onMessage(p));
     }                                                        
     /**
      * The `destroy` function emits a "raw" event indicating the client has been destroyed and then

@@ -26,9 +26,9 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm i typescript
       - run: npx tsc
-      - run: npm publish ./dist/gateway/
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
       - run: npm publish ./dist/client/
         env:
             NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+      - run: npm publish ./dist/gateway/
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}

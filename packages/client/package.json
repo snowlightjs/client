@@ -1,6 +1,6 @@
 {
-  "name": "snowlight.js",
-  "version": "0.0.14-dev",
+  "name": "@snowlightjs/client",
+  "version": "0.0.1-dev",
   "description": "A Discord bot framework for Typescript",
   "main": "dist/index.js",
   "types": "src/index.d.ts",

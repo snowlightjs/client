@@ -10,3 +10,4 @@ test/
 .env
 yarn.lock
 package-lock.json
+bun.lockb

@@ -29,6 +29,3 @@ jobs:
       - run: npm publish ./dist/client/
         env:
             NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-      - run: npm publish ./dist/gateway/
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}

@@ -1,4 +1,3 @@
-import { GatewayDispatchEvents } from "discord-api-types/v10";
 import { EventBuilder } from "../../../types/Types";
 import { Interaction } from "../../interface/Interaction";
 

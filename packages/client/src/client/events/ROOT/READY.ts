@@ -17,7 +17,8 @@ export default new EventBuilder({
             client.user.email = payload.d.user.email,
             ws.sessionId = payload.d.session_id,
             ws.debug(`Received READY Gateway with session id (${ws.sessionId})`),
-            ws.isReady = true
+            ws.isReady = true,
+            ws.Ready()
         ])
 
         client.cache.set(payload.t, payload);

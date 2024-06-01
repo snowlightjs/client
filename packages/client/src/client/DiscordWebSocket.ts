@@ -3,7 +3,6 @@ import { TypedEmitter } from 'tiny-typed-emitter'
 import { GatewayOpcodes } from 'discord-api-types/v10'
 import { Client } from './Client'
 import { DiscordSetPresence, EventBuilder } from '../types/Types'
-import { Logger, logger } from '../Logger'
 import fs from "fs"
 import path from 'path'
 export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
@@ -172,7 +171,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
             d: {
                 token,
                 intents,
-                properties: { $os: process.platform, $browser: "LiquidLight", $device: `LiquidLight@${((await import("../../../package.json")).version)}` },
+                properties: { $os: process.platform, $browser: "LiquidLight", $device: `LiquidLight@${((await import("../../package.json")).version)}` },
                 compress: false,
                 large_threshold: 50,
                 shard: [this.id, this.client.options.shard.shardCount],
@@ -190,7 +189,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
         })
     }
 
-    private Ready() {
+    Ready() {
         if (this.timeout_ready_emit) clearTimeout(this.timeout_ready_emit)
         //@ts-ignore
         this.timeout_ready_emit = setTimeout(() => {

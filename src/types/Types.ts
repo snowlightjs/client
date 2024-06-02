@@ -31,6 +31,7 @@ export interface DiscordEvents {
     'guildCreate': (guild: Guild) => void;
     'MessageCreate': (payload: any) => void;
     'InteractionCreate': (interaction: Interaction) => void;
+    'voiceStateUpdate': (voiceState: VoiceState) => void;
     'raw': (payload: any) => void;
 
 }

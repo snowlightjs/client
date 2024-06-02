@@ -1,7 +1,7 @@
 import { ActivityType, GatewayDispatchEvents } from "discord-api-types/v10";
-import { DiscordWebSocket } from "../client/DiscordWebSocket";
 import { Client } from "../client/Client";
 import { Interaction } from "../client/interface/Interaction";
+import { DiscordWebSocket } from "../client/DiscordWebSocket";
 
 export interface DiscordClientRestOptions {
     version: "v10" | "v9"

@@ -172,7 +172,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
                 properties: { $os: process.platform, $browser: "LiquidLight", $device: `LiquidLight@${((await import("../../package.json")).version)}` },
                 compress: false,
                 large_threshold: 50,
-                shard: [this.id, this.client.options.shard.shardCount] || [0, 1],
+                shard: this.client.options.shard ? [this.id, this.client.options.shard.shardCount] : [0, 1],
                 presence: this.client.options.presence ? {
                     status: this.client.options.presence.status,
                     activities: [

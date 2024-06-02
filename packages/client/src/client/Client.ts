@@ -41,7 +41,9 @@ export class Client extends TypedEmitter<DiscordEvents> {
     }
 
     public async login(token: string = this.options.token) {
-        if (!token || typeof token !== 'string') throw new Error("Invalid token provided");
+        if (!token) {
+            throw new Error("No token provided");
+        }
         this.emit("debug", `Provided token: ${this.options.token}`);
         this.emit("debug", 'Preparing to connect to the gateway...');
         try {

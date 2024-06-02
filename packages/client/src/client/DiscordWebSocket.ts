@@ -32,7 +32,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
                 fs.readdirSync(path.join(__dirname, "./events")),
             ]);
             for (const folder of EventFolder) {
-                const commandsInFolder = fs.readdirSync(path.join(__dirname, `./events/${folder}`));
+                const commandsInFolder = fs.readdirSync(path.join(__dirname, `./events/${folder}`)).filter(file => file.endsWith('.js'));
                 for (const commandFile of commandsInFolder) {
                     const command: EventBuilder = await import(`./events/${folder}/${commandFile}`).then((c) => c.default);
                     this.cache.set(command.name, command);
@@ -172,7 +172,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
                 properties: { $os: process.platform, $browser: "LiquidLight", $device: `LiquidLight@${((await import("../../package.json")).version)}` },
                 compress: false,
                 large_threshold: 50,
-                shard: [this.id, this.client.options.shard.shardCount] || [0, 1],
+                shard: [this.client.options.shard.totalShards, this.client.options.shard.shardCount],
                 presence: this.client.options.presence ? {
                     status: this.client.options.presence.status,
                     activities: [

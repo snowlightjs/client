@@ -19,9 +19,9 @@ export default new EventBuilder({
             ws.debug(`Received READY Gateway with session id (${ws.sessionId})`),
             ws.isReady = true,
             ws.Ready()
-        ])
+        ]);
 
-        client.cache.set(payload.t, payload);
+        client.cache.set(payload.t, payload.d);
         client.emit("ready", payload);
     },
 });

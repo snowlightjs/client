@@ -9,12 +9,12 @@ export interface DiscordClientRestOptions {
 export interface DiscordClientOptions {
     token: string;
     intents: number;
-    shard: {
+    shard?: {
         totalShards: number;
         shardCount: number;
     }
     api_version: "v10" | "v9";
-    presence: {
+    presence?: {
         activities: {
             name: string;
             type: number;

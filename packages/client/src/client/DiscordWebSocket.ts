@@ -162,9 +162,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
     }
 
     public async identify() {
-        const { token, intents, presence } = this.client.options;
-        const { status, activities } = presence;
-        const { name, type, url } = activities;
+        const { token, intents } = this.client.options;
         this.debug(`Identifying with Gateway`);
         this.send({
             op: GatewayOpcodes.Identify,
@@ -174,17 +172,17 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
                 properties: { $os: process.platform, $browser: "LiquidLight", $device: `LiquidLight@${((await import("../../package.json")).version)}` },
                 compress: false,
                 large_threshold: 50,
-                shard: [this.id, this.client.options.shard.shardCount],
-                presence: {
-                    status,
+                shard: [this.id, this.client.options.shard.shardCount] || [0, 1],
+                presence: this.client.options.presence ? {
+                    status: this.client.options.presence.status,
                     activities: [
                         {
-                            name,
-                            url,
-                            type
+                            name: this.client.options.presence.activities.name || null,
+                            url: this.client.options.presence.activities.url || null,
+                            type: this.client.options.presence.activities.type || 0
                         }
                     ]
-                },
+                } : undefined,
             },
         })
     }

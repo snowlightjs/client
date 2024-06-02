@@ -3,6 +3,7 @@ import { TypedEmitter } from "tiny-typed-emitter";
 import { DiscordWebSocket } from "./DiscordWebSocket";
 import { User } from "./interface/User";
 import { Guild } from "./interface/Guilds";
+import fetch from "node-fetch";
 
 export class Client extends TypedEmitter<DiscordEvents> {
     options: DiscordClientOptions;

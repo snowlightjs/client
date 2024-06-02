@@ -24,7 +24,7 @@ npm install @snowlightjs/client | yarn add @snowlightjs/client | bun install @sn
 import { Client } from "@snowlightjs/client";
  
 const client = new Client({
-    token: "YOUR_BOT_TOKEN" // Your bot token,
+    token: "YOUR_BOT_TOKEN", // Your bot token,
     api_version: "v10",
     intents: 1, // Intents: discord.com/developers/docs/topics/gateway#gateway-intents | https://discord-intents-calculator.vercel.app/
 })

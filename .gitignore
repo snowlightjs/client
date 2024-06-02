@@ -6,7 +6,6 @@ node_modules/
 
 # Project files:
 *.sublime-*
-test/
 .env
 yarn.lock
 package-lock.json

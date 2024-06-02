@@ -2,6 +2,7 @@ import { ActivityType, GatewayDispatchEvents } from "discord-api-types/v10";
 import { Client } from "../client/Client";
 import { Interaction } from "../client/interface/Interaction";
 import { DiscordWebSocket } from "../client/DiscordWebSocket";
+import { Guild } from "../client/interface/Guilds";
 
 export interface DiscordClientRestOptions {
     version: "v10" | "v9"
@@ -27,9 +28,10 @@ export interface DiscordEvents {
     'ready': (payload: DiscordGatewayPayload) => void;
     'debug': (message: string) => void;
     'message': (message: string) => void;
-    'voiceStateUpdate': (payload: VoiceState) => void;
+    'guildCreate': (guild: Guild) => void;
     'MessageCreate': (payload: any) => void;
     'InteractionCreate': (interaction: Interaction) => void;
+    'voiceStateUpdate': (voiceState: VoiceState) => void;
     'raw': (payload: any) => void;
 
 }

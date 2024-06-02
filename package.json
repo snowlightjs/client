@@ -12,7 +12,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/node": "^20.12.8"
+    "@types/node": "^20.12.8",
+    "@types/ws": "^8.5.10"
   },
   "keywords": [
     "discord",

@@ -1,5 +1,5 @@
 # SnowLight.JS
-A simple way to make your discord bot with bluelight.js
+A simple way to make your discord bot with snowlight.js
 # Features
 - Low Memory Usage
 - Custom Cache System

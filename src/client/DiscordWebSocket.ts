@@ -52,7 +52,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
     }
 
     public async connect() {
-        if (this.client.options.token === null === undefined) {
+        if (this.client.options.token === null || this.client.options.token === undefined) {
             return this.debug('Token is not defined')
         }
         const ws = new WebSocket(this.url)

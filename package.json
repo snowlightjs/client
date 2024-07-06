@@ -1,10 +1,10 @@
 {
   "name": "@snowlightjs/client",
-  "version": "0.0.9-dev",
+  "version": "0.0.10-dev",
   "description": "A Discord bot framework for Typescript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/snowlightjs/SnowLight.js",
+  "repository": "https://github.com/snowlightjs/client",
   "author": "FAYStarNext",
   "license": "BSD-3-Clause",
   "publishConfig": {
@@ -23,8 +23,8 @@
     "snowlightjs"
   ],
   "dependencies": {
+    "axios": "^1.7.2",
     "discord-api-types": "^0.37.83",
-    "node-fetch": "^3.3.2",
     "tiny-typed-emitter": "^2.1.0",
     "ws": "^8.17.0"
   }

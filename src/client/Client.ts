@@ -3,7 +3,6 @@ import { TypedEmitter } from "tiny-typed-emitter";
 import { DiscordWebSocket } from "./DiscordWebSocket";
 import { User } from "./interface/User";
 import { Guild } from "./interface/Guilds";
-import fetch from "node-fetch";
 
 export class Client extends TypedEmitter<DiscordEvents> {
     options: DiscordClientOptions;
@@ -47,14 +46,6 @@ export class Client extends TypedEmitter<DiscordEvents> {
         this.emit("debug", `Provided token: ${this.options.token}`);
         this.emit("debug", 'Preparing to connect to the gateway...');
         try {
-            const discord = await fetch(`https://discord.com/api/v10/gateway/bot`, {
-                headers: {
-                    Authorization: `Bot ${this.options.token}`,
-                }
-            });
-            if (!discord.ok) {
-                throw new Error(`Failed to connect to the gateway: ${discord.statusText}`);
-            }
             await this.ws.connect();
             return this.emit("debug", `Connected to the gateway successfully!`);
         } catch (error) {

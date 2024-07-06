@@ -1,5 +1,5 @@
+import axios from "axios";
 import { Client } from "../Client";
-import fetch from 'node-fetch';
 
 export class Interaction {
     id: string;
@@ -80,13 +80,13 @@ export class Interaction {
             tts: boolean,
         }
     }) {
-        return await fetch(`https://discord.com/api/v10/interactions/${this.id}/${this.token}/callback`, {
+        return await axios(`https://discord.com/api/v10/interactions/${this.id}/${this.token}/callback`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bot ${this.client.options.token}`
             },
-            body: JSON.stringify(content)
+            data: JSON.stringify(content)
         });
     }
 

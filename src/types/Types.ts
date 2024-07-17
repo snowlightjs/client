@@ -25,7 +25,7 @@ export interface DiscordClientOptions {
     };
 }
 export interface DiscordEvents {
-    'ready': (payload: any) => void;
+    'ready': (payload: DiscordGatewayPayloadReady) => void;
     'debug': (message: string) => void;
     'message': (message: string) => void;
     'guildCreate': (guild: Guild) => void;
@@ -157,7 +157,7 @@ export interface DiscordGatewayPayloadResume {
     session_id: string;
     seq: number;
 }
-export interface DiscordGatewayPayload_READY {
+export interface DiscordGatewayPayloadReady {
     op: DiscordGatewayOpCodes;
     t: "READY",
     s: 1,

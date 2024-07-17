@@ -8,7 +8,7 @@ export interface DiscordClientRestOptions {
     version: "v10" | "v9"
 }
 export interface DiscordClientOptions {
-    token: string;
+    token?: string;
     intents: number;
     shard?: {
         totalShards: number;
@@ -25,7 +25,7 @@ export interface DiscordClientOptions {
     };
 }
 export interface DiscordEvents {
-    'ready': (payload: DiscordGatewayPayload) => void;
+    'ready': (payload: any) => void;
     'debug': (message: string) => void;
     'message': (message: string) => void;
     'guildCreate': (guild: Guild) => void;

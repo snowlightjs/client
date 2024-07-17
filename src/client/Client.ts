@@ -46,7 +46,7 @@ export class Client extends TypedEmitter<DiscordEvents> {
         this.emit("debug", `Provided token: ${this.options.token}`);
         this.emit("debug", 'Preparing to connect to the gateway...');
         try {
-            await this.ws.connect();
+            this.ws.connect(token);
             return this.emit("debug", `Connected to the gateway successfully!`);
         } catch (error) {
             this.emit("debug", `An error occurred: ${error}`);

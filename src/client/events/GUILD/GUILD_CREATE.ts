@@ -6,7 +6,7 @@ import { Members } from "../../interface/Members";
 export default new EventBuilder({
     name: GatewayDispatchEvents.GuildCreate,
     async run(payload, ws, client) {
-        Promise.resolve([
+        Promise.all([
             client.guild.cache.set(payload.d.id, {
                 id: payload.d.id,
                 name: payload.d.name,

@@ -23,16 +23,16 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
     constructor(readonly id: number, client: Client) {
         super()
         this.client = client
-        this._init_();
+        this.init();
     }
 
-    private async _init_() {
+    private async init() {
         try {
             const [EventFolder] = await Promise.all([
                 fs.readdirSync(path.join(__dirname, "./events")),
             ]);
             for (const folder of EventFolder) {
-                const commandsInFolder = fs.readdirSync(path.join(__dirname, `./events/${folder}`)).filter(file => file.endsWith('.js'));
+                const commandsInFolder = fs.readdirSync(path.join(__dirname, `./events/${folder}`)).filter(file => file.endsWith('.js') || file.endsWith('.ts'));
                 for (const commandFile of commandsInFolder) {
                     const command: EventBuilder = await import(`./events/${folder}/${commandFile}`).then((c) => c.default);
                     this.cache.set(command.name, command);
@@ -51,9 +51,11 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
         return process.uptime() * 1000;
     }
 
-    public async connect() {
-        if (this.client.options.token === null || this.client.options.token === undefined) {
-            return this.debug('Token is not defined')
+    public async connect(token?: string) {
+        if (token) this.client.options.token = token;
+        if (this.ws !== null) {
+            this.ws.removeAllListeners();
+            this.ws.close(1000, 'Reconnecting');
         }
         const ws = new WebSocket(this.url)
         this.ws = ws
@@ -65,7 +67,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
     }
 
     public async disconnect(reason?: string) {
-        await this.client.stopInterval(this.id);
+        this.client.stopInterval(this.id);
         this.debug(`Disconnecting from Discord Gateway with reason ${reason}`)
         this.ws?.close(1000, 'Disconnecting');
     }
@@ -124,7 +126,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
     }
 
     private async onClose(code: number, reason: string) {
-        await this.client.stopInterval(this.id);
+        this.client.stopInterval(this.id);
         this.ping = -1
         this.isReady = false
         this.debug(`Disconnected from Discord Gateway with code ${code} and reason ${reason}`);
@@ -142,7 +144,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
     }
 
     private async reconnect() {
-        await this.client.stopInterval(this.id);
+        this.client.stopInterval(this.id);
         this.ping = -1
         this.ws?.close(4000, 'Reconnecting')
     }

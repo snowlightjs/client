@@ -17,8 +17,8 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
     public isReconnect: boolean = false
     public isReady: boolean = false
     public isPayloadReady: boolean = false
-    public timeout_ready_emit: NodeJS.Timeout | null = null
-    public cache: Map<string, any> = new Map()
+    private timeout_ready_emit: NodeJS.Timeout | null = null;
+    public ICache: Map<string, EventBuilder> = new Map()
     public url: string = 'wss://gateway.discord.gg/?v=10&encoding=json'
     constructor(readonly id: number, client: Client) {
         super()
@@ -35,7 +35,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
                 const commandsInFolder = fs.readdirSync(path.join(__dirname, `./events/${folder}`)).filter(file => file.endsWith('.js') || file.endsWith('.ts'));
                 for (const commandFile of commandsInFolder) {
                     const command: EventBuilder = await import(`./events/${folder}/${commandFile}`).then((c) => c.default);
-                    this.cache.set(command.name, command);
+                    this.ICache.set(command.name, command);
                     this.debug(`Loaded Events: ${command.name.toString()}[${commandFile}]`);
                 }
             }
@@ -105,10 +105,12 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
                 break;
             case GatewayOpcodes.Dispatch:
                 try {
-                    let events: EventBuilder = this.cache.get(payload.t);
+                    const events: EventBuilder = this.ICache.get(payload.t);
                     if (!events) return;
                     await events.run(payload, this, this.client);
-                } catch (error) { }
+                } catch (error) {
+                    this.debug(`Error: ${error}`)
+                }
                 break;
             default:
                 if (process.env.NODE_ENV === 'development') {
@@ -190,12 +192,11 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
     }
 
     Ready() {
-        if (this.timeout_ready_emit) clearTimeout(this.timeout_ready_emit)
-        //@ts-ignore
+        if (this.timeout_ready_emit) clearTimeout(this.timeout_ready_emit);
         this.timeout_ready_emit = setTimeout(() => {
-            this.isPayloadReady = true
+            this.isPayloadReady = true;
             this.emit('ready');
-        }, 1500)
+        }, 1500) as NodeJS.Timeout;
     }
 
     public debug(message: string) {
@@ -208,4 +209,4 @@ export declare interface ShardEvents {
     ready: () => void
 }
 
-export declare type Dictionary<V = any, K extends string | symbol = string> = Record<K, V>;
+export declare type Dictionary<V = unknown, K extends string | symbol = string> = Record<K, V>;

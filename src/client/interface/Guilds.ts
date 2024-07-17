@@ -11,7 +11,7 @@ export class Guild {
     permissions_new: string;
     roles: Role;
     members: Members;
-    public cache: Map<string, Guild | any> = new Map();
+    public cache: Map<string, Guild> = new Map();
     constructor() {
         this.id = "";
         this.name = "";

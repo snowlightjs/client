@@ -80,7 +80,7 @@ export interface InteractionCreatePayload {
         "type": 1,
         "name": "ping",
         "id": string
-        options: any[]
+        options: []
     },
     "channel_id": string,
     "channel": {
@@ -163,7 +163,7 @@ export interface DiscordGatewayPayloadReady {
     s: 1,
     d: {
         v: number,
-        user_settings: {},
+        user_settings: Record<string, unknown>,
         user: {
             verified: boolean,
             username: string,

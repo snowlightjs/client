@@ -1,8 +1,9 @@
-import { Role } from "./Role";
+import { APIGuildMember, APIUser } from "discord-api-types/v10";
 
-export class Members {
+export class Members implements APIGuildMember {
+    flags: number;
     id: string;
-    user: string;
+    user: APIUser;
     nick: string;
     joined_at: string;
     premium_since: string;
@@ -10,12 +11,12 @@ export class Members {
     mute: boolean;
     pending: boolean;
     permissions: string;
-    roles: Role[];
+    roles: string[];
     
     public cache = new Map();
     constructor() {
         this.id = "";
-        this.user = "";
+        this.user = {} as APIUser;
         this.nick = "";
         this.roles = [];
         this.joined_at = "";
@@ -24,6 +25,7 @@ export class Members {
         this.mute = false;
         this.pending = false;
         this.permissions = "";
+        this.flags = 0;
     }
     public async fetch(id: string): Promise<Members> {
         return this.cache.get(id);

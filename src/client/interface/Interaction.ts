@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Client } from "../Client";
-
 export class Interaction {
     id: string;
     token: string;

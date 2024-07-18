@@ -18,7 +18,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
     public isReady: boolean = false
     public isPayloadReady: boolean = false
     private timeout_ready_emit: NodeJS.Timeout | null = null;
-    public ICache: Map<string, EventBuilder> = new Map()
+    public ICache: Map<string, EventBuilder<any>> = new Map()
     public url: string = 'wss://gateway.discord.gg/?v=10&encoding=json'
     constructor(readonly id: number, client: Client) {
         super()
@@ -34,7 +34,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
             for (const folder of EventFolder) {
                 const commandsInFolder = fs.readdirSync(path.join(__dirname, `./events/${folder}`)).filter(file => file.endsWith('.js') || file.endsWith('.ts'));
                 for (const commandFile of commandsInFolder) {
-                    const command: EventBuilder = await import(`./events/${folder}/${commandFile}`).then((c) => c.default);
+                    const command: EventBuilder<any> = await import(`./events/${folder}/${commandFile}`).then((c) => c.default);
                     this.ICache.set(command.name, command);
                     this.debug(`Loaded Events: ${command.name.toString()}[${commandFile}]`);
                 }
@@ -105,7 +105,7 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
                 break;
             case GatewayOpcodes.Dispatch:
                 try {
-                    const events: EventBuilder = this.ICache.get(payload.t);
+                    const events: EventBuilder<any> = this.ICache.get(payload.t);
                     if (!events) return;
                     await events.run(payload, this, this.client);
                 } catch (error) {

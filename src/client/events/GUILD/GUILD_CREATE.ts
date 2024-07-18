@@ -1,11 +1,10 @@
-import { GatewayDispatchEvents } from "discord-api-types/v10";
+import { GatewayDispatchEvents, GatewayGuildCreateDispatch } from "discord-api-types/v10";
 import { EventBuilder } from "../../../types/Types";
-import { Role } from "../../interface/Role";
-import { Members } from "../../interface/Members";
+import { Guild } from "../../interface/Guilds";
 
 export default new EventBuilder({
     name: GatewayDispatchEvents.GuildCreate,
-    async run(payload, ws, client) {
+    async run(payload: GatewayGuildCreateDispatch, ws, client): Promise<void> {
         Promise.all([
             client.guild.cache.set(payload.d.id, {
                 id: payload.d.id,
@@ -14,16 +13,9 @@ export default new EventBuilder({
                 owner: payload.d.owner,
                 permissions: payload.d.permissions,
                 features: payload.d.features,
-                permissions_new: payload.d.permissions_new,
-            }),
-            payload.d.members.forEach((member: Members) => {
-                client.guild.members.cache.set(member.id, member);
-            }),
-            payload.d.roles.forEach((role: Role) => {
-                client.guild.roles.cache.set(role.id, role);
-            })
+            } as unknown as Guild),
         ]);
         ws.debug(`Received GUILD_CREATE Gateway with guild id (${(await client.guild.fetch(payload.d.id)).id})`);
-        client.emit("raw", payload);
+        client.emit("guildCreate", payload.d);
     },
 });

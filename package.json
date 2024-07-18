@@ -1,12 +1,11 @@
 {
   "name": "@snowlightjs/client",
-  "version": "0.0.11-dev",
+  "version": "0.0.12-dev",
   "description": "A Discord bot framework for Typescript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/snowlightjs/client",
   "author": "FAYStarNext",
-  "type": "module",
   "license": "BSD-3-Clause",
   "scripts": {
     "lint": "bun x eslint src/**/*.ts",

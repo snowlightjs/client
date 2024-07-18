@@ -36,6 +36,6 @@
     "axios": "^1.7.2",
     "discord-api-types": "^0.37.92",
     "tiny-typed-emitter": "^2.1.0",
-    "ws": "^8.18.0"
+    "ws": "^8.17.1"
   }
 }

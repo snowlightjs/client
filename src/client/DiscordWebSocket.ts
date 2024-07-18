@@ -28,22 +28,25 @@ export class DiscordWebSocket extends TypedEmitter<ShardEvents> {
 
     private async init() {
         try {
-            const [EventFolder] = await Promise.all([
-                fs.readdirSync(path.join(__dirname, "./events")),
-            ]);
-            for (const folder of EventFolder) {
-                const commandsInFolder = fs.readdirSync(path.join(__dirname, `./events/${folder}`)).filter(file => file.endsWith('.js') || file.endsWith('.ts'));
-                for (const commandFile of commandsInFolder) {
-                    const command: EventBuilder<any> = await import(`./events/${folder}/${commandFile}`).then((c) => c.default);
-                    this.ICache.set(command.name, command);
-                    this.debug(`Loaded Events: ${command.name.toString()}[${commandFile}]`);
+            const EventFolders = await fs.promises.readdir(path.join(__dirname, "./events"));
+            
+            for (const folder of EventFolders) {
+                const eventsInFolder = await fs.promises.readdir(path.join(__dirname, `./events/${folder}`));
+                for (const eventsFile of eventsInFolder) {
+                    // Check if file ends with '.js'
+                    if (eventsFile.endsWith('.js')) {
+                        const module = await import(`./events/${folder}/${eventsFile}`);
+                        const events: EventBuilder<any> = module.default || module;
+                        this.ICache.set(events.name, events);
+                        this.debug(`Loaded Events: ${events.name.toString()}[${eventsFile}]`);
+                    }
                 }
             }
         } catch (e) {
-            this.debug(`Error: ${e}`);
-            process.exit(1)
+            throw new Error(`Error: ${e}`);
         }
-    }
+    }    
+    
     /*
     * Get uptime of shard
     */

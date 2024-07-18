@@ -6,7 +6,6 @@
   "types": "dist/index.d.ts",
   "repository": "https://github.com/snowlightjs/client",
   "author": "FAYStarNext",
-  "type": "module",
   "license": "BSD-3-Clause",
   "scripts": {
     "lint": "bun x eslint src/**/*.ts",

@@ -13,7 +13,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 16
-      - run: npm i --force
       - run: npm i -g typescript bun --force
   publish-npm:
     needs: build
@@ -24,6 +23,7 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
+      - run: npm i --force
       - run: bun i
       - run: bun x tsc
       - run: npm publish

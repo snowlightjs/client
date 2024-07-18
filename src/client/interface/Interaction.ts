@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Client } from "../Client";
-
 export class Interaction {
     id: string;
     token: string;
@@ -8,7 +7,7 @@ export class Interaction {
         type: number,
         name: string,
         id: string
-        options: any[]
+        options: []
     };
     members: {
         id: string,
@@ -75,8 +74,8 @@ export class Interaction {
         type: number,
         data: {
             content: string,
-            allowed_mentions: {},
-            embeds: any[],
+            allowed_mentions: Record<string, unknown>,
+            embeds: [],
             tts: boolean,
         }
     }) {

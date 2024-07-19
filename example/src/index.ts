@@ -1,5 +1,4 @@
-//import { Client } from "@snowlightjs/client";
-import { Client } from "../../dist";
+import { Client } from "@snowlightjs/client";
 import "dotenv/config";
 
 console.log(process.env.TOKEN);
@@ -9,7 +8,7 @@ const client = new Client({
     intents: 513,
 });
 
-client.on("ready", (d) => {
+client.on("ready", () => {
     console.log(`${client.user.username} ${process.memoryUsage().heapTotal / 1024 / 1024}MB`);
 });
 client.ws.on("debug", console.log);
